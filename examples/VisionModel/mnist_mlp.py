@@ -1,5 +1,6 @@
 '''
 Trains a simple deep NN on the MNIST dataset
+accuracy is 98.2%
 '''
 
 from __future__ import print_function

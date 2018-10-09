@@ -1,5 +1,6 @@
 '''
 Train a simple convnet on MNIST dataset
+accuracy is 99.1%
 '''
 from __future__ import print_function 
 import keras 
@@ -31,7 +32,7 @@ else:
 
 x_train = x_train.astype('float')
 x_test = x_test.astype('float')
-ipdb.set_trace(context=6)
+#  ipdb.set_trace(context=6)
 x_train /= 255 
 x_test /= 255 
 print('train/test sample number is: {}/{}'.format(x_train.shape[0], x_test.shape[0]))
@@ -52,7 +53,28 @@ model.add(Dense(128, activation='relu'))
 model.add(Dropout(0.5))
 model.add(Dense(num_classes, activation='softmax'))
 
-model.summary()
+model.summary() 
+'''
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #
+=================================================================
+conv2d_1 (Conv2D)            (None, 26, 26, 32)        320
+_________________________________________________________________
+conv2d_2 (Conv2D)            (None, 24, 24, 64)        18496
+_________________________________________________________________
+max_pooling2d_1 (MaxPooling2 (None, 12, 12, 64)        0
+_________________________________________________________________
+dropout_1 (Dropout)          (None, 12, 12, 64)        0
+_________________________________________________________________
+flatten_1 (Flatten)          (None, 9216)              0
+_________________________________________________________________
+dense_1 (Dense)              (None, 128)               1179776
+_________________________________________________________________
+dropout_2 (Dropout)          (None, 128)               0
+_________________________________________________________________
+dense_2 (Dense)              (None, 10)                1290
+=================================================================
+'''
 
 model.compile(optimizer=keras.optimizers.Adadelta(),
         loss=keras.losses.categorical_crossentropy,
@@ -68,5 +90,9 @@ score = model.evaluate(x_test, y_test, verbose=0)
 print('TEST loss: ', score[0])
 print('TEST accuracy: ', score[1])
 
-
+'''
+感悟：
+    1. Conv layer's first parameter is output_size 
+    2. from pooling layer to dense layer need Flatten layer
+'''
 
