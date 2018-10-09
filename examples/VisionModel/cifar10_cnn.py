@@ -1,5 +1,6 @@
 '''
 train a simple deep CNN on the CIFAR10 small images dataset 
+Epoch 40/100 loss: 0.0023 - acc: 0.7956 - val_loss: 6.4754 - val_acc: 0.5930 
 
 '''
 import keras 
@@ -46,6 +47,7 @@ model.add(Dropout(0.25))
 model.add(Flatten())
 model.add(Dense(512))
 model.add(Activation('relu'))
+model.add(Dropout(0.5)
 model.add(Dense(num_classes))
 model.add(Activation('softmax'))
 
@@ -116,6 +118,12 @@ else:
     print('Test loss is {}\tTest accuracy is {}'.format(scores[0], scores[1]))
 
 
-
+'''
+感悟：
+    1. 有些层没有参数 比如：activation flatten dropout poolinglayer 
+    2. ImageDataGenerator is a difficult problem 
+    3. the usage of model.save() 
+    4. fit_generator() 中的 worker and data.flow() 
+'''
 
 
