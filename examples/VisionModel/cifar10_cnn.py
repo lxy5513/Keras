@@ -1,7 +1,7 @@
 '''
 train a simple deep CNN on the CIFAR10 small images dataset
 Epoch 40/100 loss: 0.0023 - acc: 0.7956 - val_loss: 6.4754 - val_acc: 0.5930
-
+Epoch 100/100 loss: 0.8003 - acc: 0.7375 - val_loss: 0.7079 - val_acc: 0.7730
 '''
 import keras
 import ipdb
