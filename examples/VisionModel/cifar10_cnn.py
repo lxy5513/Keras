@@ -51,6 +51,8 @@ model.add(Dropout(0.5))
 model.add(Dense(num_classes))
 model.add(Activation('softmax'))
 
+model.summary()
+
 # intiate RMSprop optimizer 
 opt = keras.optimizers.rmsprop(lr=0.0001, decay=1e-6)
 
@@ -59,9 +61,9 @@ model.compile(loss='categorical_crossentropy',
         metrics=['accuracy'])
 
 x_train = x_train.astype('float32')
-y_train = y_train.astype('float32')
+x_test = y_train.astype('float32')
 x_train /= 255
-y_train /= 255
+x_test /= 255
 
 if not data_augmentation:
     print('Not using data augmentation')
@@ -122,8 +124,15 @@ else:
 感悟：
     1. 有些层没有参数 比如：activation flatten dropout poolinglayer 
     2. ImageDataGenerator is a difficult problem 
+    在数据集不够多的情况下，可以使用ImageDataGenerator()来扩大数据集防止搭建的网络出现过拟合现象
+    ImageDataGeneoator()的方法：
+        fit():计算依赖于数据的变换所需要的统计信息(均值方差等),只有使用featurewise_center，featurewise_std_normalization或zca_whitening参数时需要此函数。
+        flow(): 接收numpy数组和标签为参数,生成经过数据扩展或标准化后的batch数据,并在一个无限循环中不断的返回数据
+
     3. the usage of model.save() 
-    4. fit_generator() 中的 worker and data.flow() 
+    4. fit_generator() 中的 data.flow() 与图片生成器配合使用 workers：最大进程数
+        利用Python的生成器，逐个生成数据的batch并进行训练。生成器与模型将并行执行以提高效率。例如，该函数允许我们在CPU上进行实时的数据提升，同时在GPU上进行模型训练
+
 '''
 
 
