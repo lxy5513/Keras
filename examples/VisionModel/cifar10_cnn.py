@@ -22,7 +22,8 @@ model_name = 'keras_cifar10_trained_model.h5'
 (x_train, y_train), (x_test, y_test) = cifar10.load_data()
 print("x_train/y_train shape is {}/{} and its sample num is {}/{}".format(x_train.shape, y_train.shape, x_train.shape[0], y_train.shape[0]))
 
-ipdb.set_trace() 
+# before y_train.shape=(5000,1)
+# after y_train.shape=(5000,10)
 # Convert class vevtors to binary class matrics 
 y_train = keras.utils.to_categorical(y_train, num_classes) 
 y_test = keras.utils.to_categorical(y_test, num_classes) 
@@ -92,7 +93,8 @@ else:
             rescale=None, #  重放缩因子,默认为None. 如果为None或0则不进行放缩,否则会将该数值乘到数据上(在应用其他变换之前)
             preprocessing_function=None, # 将被应用于每个输入的函数。该函数将在图片缩放和数据提升之后运行。该函数接受一个参数，为一张图片（秩为3的numpy array），并且输出一个具有相同shape的numpy array
             data_format=None, #“channel_last”对应原本的“tf”，“channel_first”对应原本的“th”。以128x128的RGB图像为例，“channel_first”应将数据组织为（3,128,128），而“channel_last”应将数据组织为（128,128,3）
-            validation_split=0.0)
+            #  validation_split=0.0
+            )
     # compute quantities required for featured for validation (std, mean, and pricipal components if ZCA whitening od apploed
     datagen.fit(x_train)
 
