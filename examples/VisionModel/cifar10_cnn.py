@@ -1,22 +1,22 @@
 '''
-train a simple deep CNN on the CIFAR10 small images dataset 
-Epoch 40/100 loss: 0.0023 - acc: 0.7956 - val_loss: 6.4754 - val_acc: 0.5930 
+train a simple deep CNN on the CIFAR10 small images dataset
+Epoch 40/100 loss: 0.0023 - acc: 0.7956 - val_loss: 6.4754 - val_acc: 0.5930
 
 '''
-import keras 
-import ipdb 
-from keras.datasets import cifar10 
-from keras.preprocessing.image import ImageDataGenerator 
-from keras.models import Sequential 
-from keras.layers import Dense, Dropout, Activation, Flatten 
-from keras.layers import Conv2D, MaxPooling2D 
-import os 
+import keras
+import ipdb
+from keras.datasets import cifar10
+from keras.preprocessing.image import ImageDataGenerator
+from keras.models import Sequential
+from keras.layers import Dense, Dropout, Activation, Flatten
+from keras.layers import Conv2D, MaxPooling2D
+import os
 
-batch_size = 32 
-num_classes = 10 
-epochs = 100 
-data_augmentation = True 
-num_predictions = 20 
+batch_size = 32
+num_classes = 10
+epochs = 100
+data_augmentation = True
+num_predictions = 20
 save_dir = os.path.join(os.getcwd(), 'saved_models')
 model_name = 'keras_cifar10_trained_model.h5'
 
@@ -25,12 +25,12 @@ print("x_train/y_train shape is {}/{} and its sample num is {}/{}".format(x_trai
 
 # before y_train.shape=(5000,1)
 # after y_train.shape=(5000,10)
-# Convert class vevtors to binary class matrics 
-y_train = keras.utils.to_categorical(y_train, num_classes) 
-y_test = keras.utils.to_categorical(y_test, num_classes) 
+# Convert class vevtors to binary class matrics
+y_train = keras.utils.to_categorical(y_train, num_classes)
+y_test = keras.utils.to_categorical(y_test, num_classes)
 
 x_train = x_train.astype('float32')
-x_test = y_train.astype('float32')
+x_test = x_test.astype('float32')
 x_train /= 255
 x_test /= 255
 
@@ -58,7 +58,7 @@ model.add(Activation('softmax'))
 
 model.summary()
 
-# intiate RMSprop optimizer 
+# intiate RMSprop optimizer
 opt = keras.optimizers.rmsprop(lr=0.0001, decay=1e-6)
 
 model.compile(loss='categorical_crossentropy',
@@ -82,10 +82,10 @@ else:
     datagen = ImageDataGenerator(
             featurewise_center=False,# 是输入的数据集去中心化（均值为0），按feature执行
             samplewise_center=False, # 是输入的数据每个样本均值为0
-            featurewise_std_normalization=False, # 将输入除以数据集的标准差以完成标准化，按feature执行 
-            samplewise_std_normalization=False, # 将每个样本除以自身的标准差 
+            featurewise_std_normalization=False, # 将输入除以数据集的标准差以完成标准化，按feature执行
+            samplewise_std_normalization=False, # 将每个样本除以自身的标准差
             zca_whitening=False, # 对输入数据施加ZCA白化
-            zca_epsilon=1e-6, # ZCA使用的eposilion 
+            zca_epsilon=1e-6, # ZCA使用的eposilion
             rotation_range=0., # 整数，数据提升时图片随机转动的角度
             width_shift_range=0.1, # 浮点数，图片宽度的某个比例，数据提升时图片水平偏移的幅度
             height_shift_range=0.1, # 浮点数，图片高度的某个比例，数据提升时图片竖直偏移的幅度
@@ -114,7 +114,7 @@ else:
         os.makedirs(save_dir)
     model_path = os.path.join(save_dir, model_name)
     model.save(model_path)
-    
+
     print('Saved trained model at ', model_path)
 
     scores = model.evaluate(x_test, y_test, verbose=1)
@@ -123,17 +123,16 @@ else:
 
 '''
 感悟：
-    1. 有些层没有参数 比如：activation flatten dropout poolinglayer 
-    2. ImageDataGenerator is a difficult problem 
+    1. 有些层没有参数 比如：activation flatten dropout poolinglayer
+    2. ImageDataGenerator is a difficult problem
     在数据集不够多的情况下，可以使用ImageDataGenerator()来扩大数据集防止搭建的网络出现过拟合现象
     ImageDataGeneoator()的方法：
         fit():计算依赖于数据的变换所需要的统计信息(均值方差等),只有使用featurewise_center，featurewise_std_normalization或zca_whitening参数时需要此函数。
         flow(): 接收numpy数组和标签为参数,生成经过数据扩展或标准化后的batch数据,并在一个无限循环中不断的返回数据
 
-    3. the usage of model.save() 
+    3. the usage of model.save()
     4. fit_generator() 中的 data.flow() 与图片生成器配合使用 workers：最大进程数
         利用Python的生成器，逐个生成数据的batch并进行训练。生成器与模型将并行执行以提高效率。例如，该函数允许我们在CPU上进行实时的数据提升，同时在GPU上进行模型训练
 
 '''
-
 
