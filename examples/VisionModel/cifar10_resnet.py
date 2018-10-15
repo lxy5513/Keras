@@ -45,3 +45,4 @@ model_type = 'ResNet{}v{}'.format(depth, version)
 
 #input image dimentions 
 input_shape = x_train.shape[1:]
+
