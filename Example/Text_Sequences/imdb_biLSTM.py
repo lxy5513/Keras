@@ -12,6 +12,7 @@ from keras.layers import LSTM
 from keras.layers import Bidirectional 
 from keras.datasets import imdb 
 
+# 选择频率最高的20000个词
 max_feature = 20000 
 # cut texts after this of words 
 maxlen = 100 
